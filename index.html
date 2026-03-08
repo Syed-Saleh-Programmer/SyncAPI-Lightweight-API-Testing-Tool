@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c1424" />
+  <meta name="description" content="Lightweight REST API tester with request builder, previews, and offline-ready PWA support." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.svg" sizes="192x192" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+  <title>Sync API - Syed Saleh</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header class="request-bar">
+      <div class="logo-container">
+        <h1 class="logo-title">SyncAPI</h1>
+        <a class="logo-author" href="https://linkedin.com/in/syed-muhammad-saleh/" target="_blank" rel="noopener noreferrer">by Syed M Saleh</a>
+      </div>
+      <div class="request-controls">
+        <select id="method" aria-label="HTTP method">
+          <option>GET</option>
+          <option>POST</option>
+          <option>PUT</option>
+          <option>PATCH</option>
+          <option>DELETE</option>
+        </select>
+        <input id="url" type="text" placeholder="https://api.example.com/resource" aria-label="Request URL" />
+        <button id="send" class="btn-primary">Send</button>
+        <button id="install-btn" class="ghost install-btn hidden" type="button">Install app</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="request-panel scrollable">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Path Params</h2>
+            <button class="ghost" data-add="path">+ Add</button>
+          </div>
+          <div id="path-params" class="kv-list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Query Params</h2>
+            <button class="ghost" data-add="query">+ Add</button>
+          </div>
+          <div id="query-params" class="kv-list"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Headers</h2>
+            <button class="ghost" data-add="header">+ Add</button>
+          </div>
+          <div id="headers" class="kv-list"></div>
+        </div>
+
+        <div class="panel body-panel">
+          <div class="panel-head inline">
+            <h2>Body</h2>
+            <label class="checkbox"><input id="json-toggle" type="checkbox" checked /> JSON</label>
+          </div>
+          <textarea id="body" placeholder="{\n  &quot;title&quot;: &quot;Hello&quot;\n}"></textarea>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="response-panel scrollable">
+        <div class="panel-head sticky-head">
+          <div class="response-title-group">
+            <h2>Response</h2>
+            <div class="meta">
+              <span id="status" class="status-badge">—</span>
+              <span id="duration" class="pill-badge">— ms</span>
+              <span id="size" class="pill-badge">— B</span>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="ghost" id="copy-response" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+            <button class="ghost" id="format-response" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              Format
+            </button>
+          </div>
+        </div>
+
+        <div class="response-content">
+          <div class="response-section">
+            <h3>Headers</h3>
+            <pre id="response-headers">(none)</pre>
+          </div>
+          <div class="response-section body-section">
+            <div class="tabs-header">
+              <h3>Body</h3>
+              <div class="tabs">
+                <button class="tab-btn active" data-tab="raw">Raw</button>
+                <button class="tab-btn" data-tab="preview">Preview</button>
+              </div>
+            </div>
+            <div class="tab-contents">
+              <div id="loading-overlay" class="loading-overlay hidden">
+                <div class="spinner"></div>
+              </div>
+              <pre id="response-body" class="tab-pane active">(waiting)</pre>
+              <div id="response-visual" class="tab-pane visual-container"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="SyncAPI icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c1424" />
+      <stop offset="100%" stop-color="#0a1020" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="48" fill="url(#bg)" />
+  <path d="M64 144c32 0 32-28 64-28s32 28 64 28" stroke="#2dd4bf" stroke-width="16" fill="none" stroke-linecap="round" />
+  <circle cx="96" cy="112" r="10" fill="#fbbf24" />
+  <circle cx="160" cy="112" r="10" fill="#fbbf24" />
+  <text x="50%" y="72%" text-anchor="middle" font-family="Manrope, 'Segoe UI', sans-serif" font-size="72" font-weight="800" fill="#2dd4bf">S</text>
+</svg>
