@@ -1,4 +1,4 @@
-const CACHE_NAME = 'syncapi-cache-v1';
+const CACHE_NAME = 'syncapi-cache-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -27,16 +27,42 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request)
-        .then(response => {
+  const url = new URL(request.url);
+
+  // Do not intercept cross-origin API calls; let the network handle them.
+  if (url.origin !== self.location.origin) return;
+
+  // App shell: cache-first for known static assets.
+  if (ASSETS.includes(url.pathname)) {
+    event.respondWith(
+      caches.match(request).then(cached => {
+        if (cached) return cached;
+        return fetch(request).then(response => {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
           return response;
-        })
-        .catch(() => caches.match('/index.html'));
-    })
+        });
+      })
+    );
+    return;
+  }
+
+  // Navigation requests: network first, fall back to cached shell when offline.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match('/index.html'))
+    );
+    return;
+  }
+
+  // Same-origin runtime requests: network first with cache fallback.
+  event.respondWith(
+    fetch(request)
+      .then(response => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+        return response;
+      })
+      .catch(() => caches.match(request))
   );
 });
